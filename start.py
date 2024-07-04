@@ -11,34 +11,6 @@ from lightrag.core.types import GeneratorOutput
 from models.models import *
 from prompts.offer_prompts import *
 
-
-@dataclass
-class Summary(DataClass):
-    summary: str = field(metadata={"desc": "summary of the given text"}, default="")
-
-
-class SummaryGenerator(Component):
-    def __init__(self):
-        super().__init__()
-        json_parser = JsonOutputParser(data_class=Summary)
-        self.generator = Generator(
-            model_client=AnthropicAPIClient(),
-            model_kwargs={"model": "claude-3-haiku-20240307"},
-            prompt_kwargs={"output_format_str": json_parser.format_instructions()},
-            output_processors=json_parser,
-        )
-
-    def call(self, text: str, model_kwargs: dict = {}) -> Summary:
-        response: GeneratorOutput = self.generator.call(
-            prompt_kwargs={"input_str": text}, model_kwargs=model_kwargs
-        )
-        if response.error is None:
-            output = Summary.from_dict(response.data)
-            return output
-        else:
-            None
-
-
 class ProblemGenerator(Component):
     def __init__(self, prompt):
         super().__init__()
