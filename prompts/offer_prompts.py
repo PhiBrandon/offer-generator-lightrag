@@ -3,7 +3,8 @@ Break down this problem/obstacle into very intricate steps that the job poster w
 ---
 Follow the following format.
 Problem: ${problem}
-Sub-problems: ${sub_problems}. Respond with a single JSON object. JSON Schema: {{output_format_str}}
+Sub-problems: ${sub_problems}. 
+Respond with a single JSON object. JSON Schema: {{output_format_str}}
 ---
 Problem: {{problem}}
 Sub-problems:
@@ -19,7 +20,8 @@ Problems: ${problems}.
 Respond with a single JSON object. JSON Schema: {{output_format_str}}
 ---
 Job Description: {{job_description}}
-Problems:"""
+Problems:
+"""
 
 
 objections_template = """
