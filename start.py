@@ -136,7 +136,7 @@ class SolutionsGenerator(Component):
         super().__init__()
         json_parser = JsonOutputParser(data_class=Solution)
         self.prompt = prompt
-        self.generator = Generator(
+        self.generator = CustomGenerator(
             template=self.prompt,
             model_client=AnthropicAPIClient(),
             model_kwargs={"model": "claude-3-haiku-20240307", "max_tokens": 4000},
@@ -146,9 +146,9 @@ class SolutionsGenerator(Component):
                 )
             },
             output_processors=json_parser,
+            observation_name="solution_generation",
         )
 
-    @observe(as_type="generation", name="solution_generation")
     def call(
         self,
         input: ObjectionsOutput,
@@ -167,10 +167,21 @@ class SolutionsGenerator(Component):
                 model_kwargs=model_kwargs,
             )
             if response.error is None:
-                output = Solution.from_dict(response.data)
-                all_solutions.append(output)
+                try:
+                    output = Solution.from_dict(response.data)
+                    all_solutions.append(output)
+                except:
+                    try:
+                        output = Solution.from_json(response.data)
+                        all_solutions.append(output)
+                    except:
+                        print("parse failed...")
+                        pass
+                
+                
             else:
                 print(response.error)
+                None
         return OfferGenerationPack(
             problem=input.problems,
             sub_problems=input.subproblems,
@@ -179,15 +190,15 @@ class SolutionsGenerator(Component):
         )
 
 
-# [sub.sub_problem for sub in subs.sub_problems]
 @observe()
 def run_sequence():
     seq = Sequential(
         ProblemGenerator(prompt=promblem_template),
         SubProblemGenerator(prompt=sub_problem_template),
         ObjectionGenerator(prompt=objections_template),
-        # SolutionsGenerator(prompt=solutions_template),
+        SolutionsGenerator(prompt=solutions_template),
     ).call("Migrate 1000 servers")
+    return seq
 
 
-run_sequence()
+pack = run_sequence()
