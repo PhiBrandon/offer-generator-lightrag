@@ -28,7 +28,7 @@ jsonlines==4.0.0
 jupyter_client==8.6.2
 jupyter_core==5.7.2
 langfuse==2.38.0
-lightrag==0.0.0a11
+lightrag==0.0.0a8
 MarkupSafe==2.1.5
 matplotlib-inline==0.1.7
 nest-asyncio==1.6.0
