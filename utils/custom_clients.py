@@ -1,10 +1,11 @@
 from lightrag.components.model_client import AnthropicAPIClient
-from langfuse.decorators import observe, langfuse_context
+
 
 class CustomAnthropicAPIClient(AnthropicAPIClient):
     def __init__(self, observation_name="completion"):
         super().__init__()
         self.observation_name = observation_name
+        
 
     
     def parse_chat_completion(self, completion: dict) -> str:

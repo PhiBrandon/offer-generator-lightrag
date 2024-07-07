@@ -24,7 +24,7 @@ class CustomGenerator(Generator):
         self.observation_name = observation_name
 
     @observe(as_type="generation")
-    def call(
+    async def acall(
         self,
         prompt_kwargs: Optional[Dict] = {},  # the input need to be passed to the prompt
         model_kwargs: Optional[Dict] = {},
@@ -38,7 +38,7 @@ class CustomGenerator(Generator):
         output: GeneratorOutputType = None
         # call the model client
         try:
-            completion = self.model_client.call(
+            completion = await self.model_client.acall(
                 api_kwargs=api_kwargs, model_type=self.model_type
             )
             output = self._post_call(completion)
