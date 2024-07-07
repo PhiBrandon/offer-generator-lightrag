@@ -1,4 +1,4 @@
-# Offer Generator and Evaluator
+# Offer Generator
 - This module takes in a current offer, generates more compelling offers, then evaluates
 those compelling offers against Alex Hormozi's Value Framework.
 
