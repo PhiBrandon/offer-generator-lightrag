@@ -5,24 +5,38 @@ import uuid
 import boto3
 import xlsxwriter
 from models.models import OfferGenerationPack
- # Adjust this import path as needed
+
+# Adjust this import path as needed
 
 BUCKET_NAME = "bpdata-offers-exports"
+
 
 def expand_data(data: OfferGenerationPack):
     # Convert OfferGenerationPack to a format suitable for Polars DataFrame
     converted_data = {
         "problem": [prob.problem for prob in data.problem.problems],
-        "sub_problems": [[sp.sub_problem for sp in sps.sub_problems] for sps in data.sub_problems],
-        "objections": [[obj.objection for obj in objs.objections] for objs in data.objections],
-        "done_with_you_solutions": [sol.done_with_you_solutions for sol in data.solutions],
-        "done_for_you_solutions": [sol.done_for_you_solutions for sol in data.solutions],
-        "do_it_yourself_solutions": [sol.do_it_yourself_solutions for sol in data.solutions]
+        "sub_problems": [
+            [sp.sub_problem for sp in sps.sub_problems] for sps in data.sub_problems
+        ],
+        "objections": [
+            [obj.objection for obj in objs.objections] for objs in data.objections
+        ],
+        "done_with_you_solutions": [
+            sol.done_with_you_solutions for sol in data.solutions
+        ],
+        "done_for_you_solutions": [
+            sol.done_for_you_solutions for sol in data.solutions
+        ],
+        "do_it_yourself_solutions": [
+            sol.do_it_yourself_solutions for sol in data.solutions
+        ],
     }
 
     df = pl.DataFrame(converted_data)
     exploded = df.explode("objections").explode("sub_problems")
-    unpacked = exploded.select(pl.all())  # No need to unnest as we're already using flat structures
+    unpacked = exploded.select(
+        pl.all()
+    )  # No need to unnest as we're already using flat structures
 
     dw_explode = (
         unpacked.select(
@@ -67,6 +81,7 @@ def expand_data(data: OfferGenerationPack):
         )
     print(full)
     return {"file_name": file_name, "full_path": full}
+
 
 def upload_s3(file_name_and_path):
     s3_client = boto3.client("s3")
