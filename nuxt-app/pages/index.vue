@@ -18,7 +18,7 @@
             Something went wrong, try again.
         </div>
         <content v-else-if="success" class="flex flex-wrap justify-center">
-            <a class="btn mt-4" :href="download_url" v-if="download_url">Export Excel</a>
+           <!--  <a class="btn mt-4" :href="download_url" v-if="download_url">Export Excel</a> -->
             <div v-for="(problem, index) in json.problem.problems" class="my-4">
                 <div class="card max-w-full bg-base-100 shadow-xl">
                     <div class="card-body">
@@ -115,7 +115,7 @@ let job = ref("")
 let loading = ref(false)
 let error = ref(false)
 let success = ref(false)
-let download_url = ref("")
+// let download_url = ref("")
 async function sendInformation(e) {
     console.log("Sending")
     loading.value = true

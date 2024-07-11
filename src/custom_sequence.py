@@ -1,10 +1,7 @@
-from lightrag.core.component import Sequential, Component
-from collections import OrderedDict, namedtuple
-from typing import (
-    Any,
-    overload,
-    Dict
-)
+from lightrag.core.container import Sequential
+from lightrag.core.component import Component
+from collections import OrderedDict
+from typing import Any, overload, Dict
 
 
 class CustomSequence(Sequential):

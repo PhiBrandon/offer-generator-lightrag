@@ -2,28 +2,27 @@
 - This module takes in a current offer, generates more compelling offers, then evaluates
 those compelling offers against Alex Hormozi's Value Framework.
 
-## Prompts
+
+# Src Folder
+## offer_prompts
 You will find the prompts in the prompts folder.
 
-## Models
+## models
 You will find the LightRag Dataclasses.
 
-## Utils
+## utils
 CustomGenerator and CustomModelClient implementations.
 
-## Nuxt-app
+## nuxt-app
 You'll find the Nuxt front end application here.
 
 # Getting Started
-1. python3 -m venv venv
+1. python -m venv venv
 2. source venv/bin/activate
 3. pip install -r requirements.txt
 4. touch .env
     - ANTHROPIC_API_KEY=yourkey
-    - LANGFUSE_SECRET_KEY=yourkey
-    - LANGFUSE_PUBLIC_KEY=yourkey
-    - LANGFUSE_HOST=yourhost
-5. fastapi dev start.py
+5. fastapi dev app.py
 6. Open another terminal
 7. cd nuxt-app
 8. npm install
